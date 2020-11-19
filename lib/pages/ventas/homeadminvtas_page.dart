@@ -1,5 +1,4 @@
 import 'package:dislacvta/pages/admin/homeadmin_page.dart';
-import 'package:dislacvta/pages/login_page.dart';
 import 'package:dislacvta/pages/ventas/clientesvtas_page.dart';
 import 'package:dislacvta/pages/ventas/pedidos_page.dart';
 import 'package:dislacvta/pages/ventas/pedidoscredito_page.dart';

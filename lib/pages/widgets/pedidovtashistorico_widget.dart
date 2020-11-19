@@ -1,10 +1,13 @@
 import 'package:dislacvta/api/pedidosvtasapi.dart';
 
 import 'package:dislacvta/controller/pedidoshistoricocontroller.dart';
+import 'package:dislacvta/models/modelprintdetalle.dart';
 import 'package:dislacvta/models/pedidosvtas.dart';
 import 'package:dislacvta/pages/ventas/detallepedido.dart';
 import 'package:dislacvta/pages/ventas/printpedidoDetail.dart';
+import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zsdk/flutter_zsdk.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,9 +85,9 @@ class PedidosHistoricoVtasWidget extends StatelessWidget {
                           color: Colors.lightBlue,
                           onPressed: () {
                             //guardamos el pedido
-                            _grabarpreferences(pedidos.idDocumento);
-
-                            Get.to(PrintPedidoDetailPage());
+                            // _grabarpreferences(pedidos.idDocumento);
+                            // Get.to(PrintPedidoDetailPage());
+                            _printTikect(pedidos.idDocumento, context);
                           }),
                       IconButton(
                           icon: pedidos.pagoid == 71
@@ -201,5 +204,85 @@ class PedidosHistoricoVtasWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  _printTikect(int pedidoID, BuildContext context) async {
+    Dialogs.printer(context);
+    Future<DetalleEncabezado> detalle;
+
+    detalle = PedidosvtaApi.instance.getDetallePedido(pedidoID);
+    detalle.then((data) async {
+      DetalleEncabezado encabezado = data;
+      int p = 0;
+      String nombre = encabezado.cliente.substring(
+          0, encabezado.cliente.length > 32 ? 32 : encabezado.cliente.length);
+      if (encabezado.cliente.length <= 32) {
+        for (p = encabezado.cliente.length; p <= 32; p++) {
+          nombre += " ";
+        }
+      }
+
+      String zpl;
+      zpl = '''^XA 
+        ^CF0,60 
+        ^FO120,50^FDDISLACVTA SA DE CV.
+        ^FS ^CF0,30 
+        ^FO120,115^FDCalle Sinaloa 374,Las Mojoneras,C.P. 48290
+        ^FS ^FO220,155^FDPuerto Vallarta, Jal
+        ^FS ^FO220,195^FDventas@dislac.com.mx
+        ^FS ^FO220,235^FDTel.: 322 290 1396
+        ^FS ^FO220,275^FDTel.: 322 290 2252
+        ^FS ^FO50,315^GB700,1,3
+        ^FS ^FX Second section with recipient address and permit information. 
+        ^CFA,30 ^FO50,340^FD${nombre}
+        ^FS ^FO50,500^FDPedido ${pedidoID}
+        ^FS ^FO50,540^GB700,1,3
+        ^FS ^FX detalle del pedido 
+        ^CFA,30 ''';
+
+      int i = 0;
+      int linea = 630, lineaprecio = 680;
+
+      for (i = 0; i < encabezado.detallepedido.length; i++) {
+        zpl += ''' ^FO50,580^FD${encabezado.detallepedido[i].articulo}
+        ^FS ^FO50,${linea}
+        ^FDCant.
+        ^FS^FO290,${linea}
+        ^FDPrecio
+        ^FS ^FO590,${linea}
+        ^FDImporte^FS 
+         ^FO50,${lineaprecio}
+        ^FD${encabezado.detallepedido[i].unidades}^FS 
+        ^FO290,${lineaprecio}
+        ^FD${encabezado.detallepedido[i].precio}
+        ^FS ^FO590,${lineaprecio}
+        ^FD${encabezado.detallepedido[i].importe}^FS 
+        ''';
+        linea += 50;
+        lineaprecio += 50;
+      }
+
+      zpl += '''  ^FX Importe total del pedido 
+        ^CFA,30 
+        ^FO300,${linea}
+        ^FDImporte
+        ^FS ^FO600,${linea}
+        ^FD${encabezado.importe}^FS 
+        ^XZ''';
+
+      List<ZebraBluetoothDevice> devices =
+          await FlutterZsdk.discoverBluetoothDevices();
+      print("Found ${devices.length} BL device(s)");
+      devices.forEach((ZebraBluetoothDevice printer) {
+        if (printer.friendlyName.toLowerCase().contains("meza")) {
+          print("Running print");
+          printer.sendZplOverBluetooth(zpl).then((t) {
+            print("Printing complete");
+          });
+        }
+      });
+
+      Dialogs.dismiss(context);
+    });
   }
 }

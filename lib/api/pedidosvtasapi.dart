@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dislacvta/models/modelprintdetalle.dart';
 import 'package:dislacvta/models/pedidosvtas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -204,5 +205,18 @@ class PedidosvtaApi {
     print(response.body);
     var datauser = json.decode(response.body);
     return datauser['success'];
+  }
+
+  Future<DetalleEncabezado> getDetallePedido(int pedidoID) async {
+    SharedPreferences config = await SharedPreferences.getInstance();
+
+    final response = await http.get(config.getString('WebApi') +
+        "/api/GetPedidoDetalle?DocumentoID=" +
+        pedidoID.toString());
+
+    if (response.statusCode == 200) {
+      return DetalleEncabezado.fromJson(json.decode(response.body));
+    }
+    return null;
   }
 }

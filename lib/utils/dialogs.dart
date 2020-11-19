@@ -26,6 +26,28 @@ abstract class Dialogs {
     );
   }
 
+  static printer(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.transparent,
+            child: Center(
+              child: Image.asset(
+                'assets/printer.gif',
+                width: 100,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   static dismiss(BuildContext context) {
     Navigator.pop(context);
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/models/modelprintdetalle.dart';
@@ -247,22 +248,45 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
     // 2- ESC_ALIGN_RIGHT
     bluetooth.isConnected.then((isConnected) {
       if (isConnected) {
-        bluetooth.printCustom("HEADER", 3, 1);
+        String zpl = "";
+
+        zpl += "^XA";
+        zpl += "^FX Top section with logo, name and address.";
+        zpl += "^CF0,60";
+        zpl += "^FO120,50^FDDISLACVTA SA DE CV.^FS";
+        zpl += "^CF0,30";
+        zpl += "^FO120,115^FDCalle Sinaloa 374,Las Mojoneras,C.P. 48290^FS";
+        zpl += "^FO220,155^FDPuerto Vallarta, Jal^FS";
+        zpl += "^FO220,195^FDventas@dislac.com.mx^FS";
+        zpl += "^FO220,235^FDTel.: 322 290 1396^FS";
+        zpl += "^FO220,275^FDTel.: 322 290 2252^FS";
+        zpl += "^FO50,315^GB700,1,3^FS";
+        zpl +=
+            "^FX Second section with recipient address and permit information.";
+        zpl += "^CFA,30";
+        zpl += "^FO50,340^FDJohn Doe^FS";
+        zpl += "^FO50,380^FD100 Main Street^FS";
+        zpl += "^FO50,420^FDSpringfield TN 39021^FS";
+        zpl += "^FO50,460^FDUnited States (USA)^FS";
+        zpl += "^FO50,500^FDPedido^FS";
+        zpl += "^FO50,540^GB700,1,3^FS";
+        zpl += "^FX detalle del pedido";
+        zpl += "^CFA,30";
+        zpl += "^FO50,580^FDDescripcion del producto se colocara aqui^FS";
+        zpl += "^FO50,630^FDCant.^FS";
+        zpl += "^FO290,630^FDPrecio^FS";
+        zpl += "^FO590,630^FDImporte^FS";
+        zpl += "^FO50,680^FD100^FS";
+        zpl += "^FO290,680^FD10000^FS";
+        zpl += "^FO590,680^FD10000^FS";
+        zpl += "^FX Importe total del pedido";
+        zpl += "^CFA,30";
+        zpl += "^FO300,750^FDImporte^FS";
+        zpl += "^FO600,750^FD10000^FS";
+        zpl += "^XZ";
+        bluetooth.printCustom(zpl, 3, 1);
         bluetooth.printNewLine();
-        bluetooth.printImage(pathImage);
-        bluetooth.printNewLine();
-        bluetooth.printLeftRight("LEFT", "RIGHT", 0);
-        bluetooth.printLeftRight("LEFT", "RIGHT", 1);
-        bluetooth.printNewLine();
-        bluetooth.printLeftRight("LEFT", "RIGHT", 2);
-        bluetooth.printCustom("Body left", 1, 0);
-        bluetooth.printCustom("Body right", 0, 2);
-        bluetooth.printNewLine();
-        bluetooth.printCustom("Terimakasih", 2, 1);
-        bluetooth.printNewLine();
-        // bluetooth.printQRcode("Insert Your Own Text to Generate");
-        bluetooth.printNewLine();
-        bluetooth.printNewLine();
+
         bluetooth.paperCut();
       }
     });

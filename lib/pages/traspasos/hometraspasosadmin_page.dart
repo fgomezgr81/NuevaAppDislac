@@ -1,5 +1,4 @@
 import 'package:dislacvta/pages/admin/homeadmin_page.dart';
-import 'package:dislacvta/pages/login_page.dart';
 import 'package:dislacvta/pages/traspasos/historialtraspasos_page.dart';
 import 'package:dislacvta/pages/traspasos/traspasos_page.dart';
 import 'package:flutter/material.dart';

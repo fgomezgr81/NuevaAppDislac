@@ -138,8 +138,8 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                 child: RaisedButton(
                   color: Colors.brown,
                   onPressed: () {
-                    _printZPL(context);
-                    //_tesPrint();
+                    //_printZPL(context);
+                    _tesPrint();
                   },
                   child: Text('Imprimir pedido',
                       style: TextStyle(color: Colors.white)),
