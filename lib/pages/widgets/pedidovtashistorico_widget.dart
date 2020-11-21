@@ -85,9 +85,9 @@ class PedidosHistoricoVtasWidget extends StatelessWidget {
                           color: Colors.lightBlue,
                           onPressed: () {
                             //guardamos el pedido
-                            // _grabarpreferences(pedidos.idDocumento);
-                            // Get.to(PrintPedidoDetailPage());
-                            _printTikect(pedidos.idDocumento, context);
+                            _grabarpreferences(pedidos.idDocumento);
+                            Get.to(PrintPedidoDetailPage());
+                            //_printTikect(pedidos.idDocumento, context);
                           }),
                       IconButton(
                           icon: pedidos.pagoid == 71
