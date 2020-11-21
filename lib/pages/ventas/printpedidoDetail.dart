@@ -74,8 +74,11 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
       ),
       body: Container(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: ListView(
+            padding: EdgeInsets.all(
+              20.0,
+            ),
             children: <Widget>[
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +106,7 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

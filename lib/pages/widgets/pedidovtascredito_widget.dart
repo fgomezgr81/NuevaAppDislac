@@ -12,6 +12,7 @@ import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_zsdk/flutter_zsdk.dart';
 //import 'package:flutter_zsdk/flutter_zsdk.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,11 +102,11 @@ class _PedidosCreditoVtasWidgetState extends State<PedidosCreditoVtasWidget> {
                           color: Colors.lightBlue,
                           onPressed: () {
                             //guardamos el pedido
-                            // _grabarpreferences(pedidos.idDocumento);
+                            _grabarpreferences(pedidos.idDocumento);
 
-                            // Get.to(PrintPedidoDetailPage());
-                            //_printTikect(pedidos.idDocumento, context);
-                            _printTikectzpl(pedidos.idDocumento, context);
+                            Get.to(PrintPedidoDetailPage());
+                            // _printTikect(pedidos.idDocumento, context);
+                            //_printTikectzpl(pedidos.idDocumento, context);
                           }),
                       IconButton(
                           icon: pedidos.pagoid == 71
@@ -287,17 +288,17 @@ class _PedidosCreditoVtasWidgetState extends State<PedidosCreditoVtasWidget> {
         ^FD${encabezado.importe}^FS 
         ^XZ''';
 
-      // List<ZebraBluetoothDevice> devices =
-      //     await FlutterZsdk.discoverBluetoothDevices();
-      // print("Found ${devices.length} BL device(s)");
-      // devices.forEach((ZebraBluetoothDevice printer) {
-      //   if (printer.friendlyName.toLowerCase().contains("meza")) {
-      //     print("Running print");
-      //     printer.sendZplOverBluetooth(zpl).then((t) {
-      //       print("Printing complete");
-      //     });
-      //   }
-      // });
+      List<ZebraBluetoothDevice> devices =
+          await FlutterZsdk.discoverBluetoothDevices();
+      print("Found ${devices.length} BL device(s)");
+      devices.forEach((ZebraBluetoothDevice printer) {
+        if (printer.friendlyName.toLowerCase().contains("meza")) {
+          print("Running print");
+          printer.sendZplOverBluetooth(zpl).then((t) {
+            print("Printing complete");
+          });
+        }
+      });
 
       Dialogs.dismiss(context);
     });

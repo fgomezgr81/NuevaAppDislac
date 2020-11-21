@@ -3,6 +3,7 @@ import 'package:dislacvta/pages/ventas/clientesvtas_page.dart';
 import 'package:dislacvta/pages/ventas/pedidos_page.dart';
 import 'package:dislacvta/pages/ventas/pedidoscredito_page.dart';
 import 'package:dislacvta/pages/ventas/pedidoshistorico_page.dart';
+import 'package:dislacvta/pages/ventas/ventadia.dart';
 import 'package:flutter/material.dart';
 
 class HomeVtasPage extends StatelessWidget {
@@ -11,7 +12,7 @@ class HomeVtasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabController = new DefaultTabController(
-      length: 4,
+      length: 5,
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -60,6 +61,12 @@ class HomeVtasPage extends StatelessWidget {
                   size: 30,
                 ),
               ),
+              Tab(
+                icon: Icon(
+                  Icons.account_balance,
+                  size: 30,
+                ),
+              ),
             ]),
           ),
           body: TabBarView(children: <Widget>[
@@ -67,6 +74,7 @@ class HomeVtasPage extends StatelessWidget {
             PedidosPage(),
             PedidosCreditoPage(),
             PedidosHistoricoPage(),
+            PrintVentasDia()
           ]),
         ),
       ),
