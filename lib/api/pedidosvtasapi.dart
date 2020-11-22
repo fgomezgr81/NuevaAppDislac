@@ -219,4 +219,61 @@ class PedidosvtaApi {
     }
     return null;
   }
+
+  Future<List<ModelPedido>> getPagoPedidos(int clienteID) async {
+    SharedPreferences vendedorid = await SharedPreferences.getInstance();
+
+    final response = await http.get(vendedorid.getString('WebApi') +
+        '/api/GetPedidosPorCliente?ClienteID=' +
+        clienteID.toString());
+
+    if (response.statusCode == 200) {
+      List datauser = json.decode(response.body);
+
+      // Si la llamada al servidor fue exitosa, analiza el JSON
+      return datauser.map((job) => new ModelPedido.fromJson(job)).toList();
+    } else {
+      // Si la llamada no fue exitosa, lanza un error.
+      throw Exception('Failed to load post');
+    }
+  }
+
+//obtenemos los pedidos de un cliente
+  Future<List<ModelPedido>> searchgetPagoPedidos(String cliente) async {
+    SharedPreferences vendedorid = await SharedPreferences.getInstance();
+
+    if (cliente.isNotEmpty) {
+      final response = await http.get(vendedorid.getString('WebApi') +
+          '/api/GetPedidosClientes?VendedorID=' +
+          vendedorid.getInt('VendedorID').toString() +
+          "&Cliente=" +
+          cliente);
+
+      if (response.statusCode == 200) {
+        List datauser = json.decode(response.body);
+
+        // Si la llamada al servidor fue exitosa, analiza el JSON
+        return datauser.map((job) => new ModelPedido.fromJson(job)).toList();
+      } else {
+        // Si la llamada no fue exitosa, lanza un error.
+        throw Exception('Failed to load post');
+      }
+    } else {
+      final response = await http.get(vendedorid.getString('WebApi') +
+          '/api/GetPedidosVendedor?VendedorID=' +
+          vendedorid.getInt('VendedorID').toString() +
+          "&Cliente=" +
+          cliente);
+
+      if (response.statusCode == 200) {
+        List datauser = json.decode(response.body);
+
+        // Si la llamada al servidor fue exitosa, analiza el JSON
+        return datauser.map((job) => new ModelPedido.fromJson(job)).toList();
+      } else {
+        // Si la llamada no fue exitosa, lanza un error.
+        throw Exception('Failed to load post');
+      }
+    }
+  }
 }

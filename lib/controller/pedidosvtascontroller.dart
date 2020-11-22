@@ -28,4 +28,18 @@ class PedidosVtasController extends GetxController {
     this._loading = false;
     update();
   }
+
+  Future<void> getPedidoPagar(int clienteID) async {
+    final data = await PedidosvtaApi.instance.getPagoPedidos(clienteID);
+    this._pedidos = data;
+    this._loading = false;
+    update();
+  }
+
+  Future<void> searchgetPagoPedidos(String cliente) async {
+    final data = await PedidosvtaApi.instance.searchPedidos(cliente);
+    this._pedidos = data;
+    this._loading = false;
+    update();
+  }
 }

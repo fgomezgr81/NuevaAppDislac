@@ -1,5 +1,6 @@
 import 'package:dislacvta/controller/clientesvtascontroller.dart';
 import 'package:dislacvta/models/clientesvtas.dart';
+import 'package:dislacvta/pages/ventas/pagarpedidos.dart';
 import 'package:dislacvta/pages/ventas/productosvta_page.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +98,7 @@ class ClientesWidget extends StatelessWidget {
               child: const Text('Pagar pedidos'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Get.to(PagarPedidos());
               },
             )
           ],
