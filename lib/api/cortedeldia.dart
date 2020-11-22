@@ -40,6 +40,7 @@ class CorteApi {
       List datauser = json.decode(response.body);
       return datauser.map((job) => new CorteDia.fromJson(job)).toList();
     }
+    return null;
   }
 
   Future<List<VentaClientes>> ventaDiaCliente() async {
@@ -53,5 +54,6 @@ class CorteApi {
       List datauservta = json.decode(responsevta.body);
       return datauservta.map((job) => new VentaClientes.fromJson(job)).toList();
     }
+    return null;
   }
 }

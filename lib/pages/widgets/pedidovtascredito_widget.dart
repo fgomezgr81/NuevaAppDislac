@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 //import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/api/pedidosvtasapi.dart';
@@ -10,7 +9,6 @@ import 'package:dislacvta/pages/ventas/detallepedido.dart';
 import 'package:dislacvta/pages/ventas/printpedidoDetail.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_zsdk/flutter_zsdk.dart';
 //import 'package:flutter_zsdk/flutter_zsdk.dart';

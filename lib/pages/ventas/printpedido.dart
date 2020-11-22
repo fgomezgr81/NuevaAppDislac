@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/models/modelprintdetalle.dart';

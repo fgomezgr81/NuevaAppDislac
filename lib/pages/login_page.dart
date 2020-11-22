@@ -18,16 +18,6 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         width: double.infinity,
         color: colorbase,
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     colors: [
-        //       Colors.brown[300],
-        //       Colors.brown[200],
-        //       Colors.brown[400],
-        //     ],
-        //   ),
-        // ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
