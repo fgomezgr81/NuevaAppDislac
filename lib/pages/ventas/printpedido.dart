@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_zsdk/flutter_zsdk.dart';
 
 class PrintPedidoPage extends StatefulWidget {
   @override
@@ -153,8 +152,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
                 child: RaisedButton(
                   color: Colors.brown,
                   onPressed: () {
-                    _printZPL();
-                    //_tesPrint();
+                    _tesPrint();
                   },
                   child: Text('Imprimir pedido',
                       style: TextStyle(color: Colors.white)),
@@ -287,54 +285,6 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
         bluetooth.printNewLine();
 
         bluetooth.paperCut();
-      }
-    });
-  }
-
-  _printZPL() async {
-    String zpl = "";
-
-    zpl += "^XA";
-    zpl += "^FX Top section with logo, name and address.";
-    zpl += "^CF0,60";
-    zpl += "^FO120,50^FDDISLACVTA SA DE CV.^FS";
-    zpl += "^CF0,30";
-    zpl += "^FO120,115^FDCalle Sinaloa 374,Las Mojoneras,C.P. 48290^FS";
-    zpl += "^FO220,155^FDPuerto Vallarta, Jal^FS";
-    zpl += "^FO220,195^FDventas@dislac.com.mx^FS";
-    zpl += "^FO220,235^FDTel.: 322 290 1396^FS";
-    zpl += "^FO220,275^FDTel.: 322 290 2252^FS";
-    zpl += "^FO50,315^GB700,1,3^FS";
-    zpl += "^FX Second section with recipient address and permit information.";
-    zpl += "^CFA,30";
-    zpl += "^FO50,340^FDJohn Doe^FS";
-    zpl += "^FO50,380^FD100 Main Street^FS";
-    zpl += "^FO50,420^FDSpringfield TN 39021^FS";
-    zpl += "^FO50,460^FDUnited States (USA)^FS";
-    zpl += "^FO50,500^FDPedido^FS";
-    zpl += "^FO50,540^GB700,1,3^FS";
-    zpl += "^FX detalle del pedido";
-    zpl += "^CFA,30";
-    zpl += "^FO50,580^FDDescripcion del producto se colocara aqui^FS";
-    zpl += "^FO50,630^FDCant.^FS";
-    zpl += "^FO290,630^FDPrecio^FS";
-    zpl += "^FO590,630^FDImporte^FS";
-    zpl += "^FO50,680^FD100^FS";
-    zpl += "^FO290,680^FD10000^FS";
-    zpl += "^FO590,680^FD10000^FS";
-    zpl += "^FX Importe total del pedido";
-    zpl += "^CFA,30";
-    zpl += "^FO300,750^FDImporte^FS";
-    zpl += "^FO600,750^FD10000^FS";
-    zpl += "^XZ";
-
-    List<ZebraBluetoothDevice> devices =
-        await FlutterZsdk.discoverBluetoothDevices();
-    print("Found ${devices.length} BL device(s)");
-    devices.forEach((ZebraBluetoothDevice printer) {
-      if (printer.friendlyName.toLowerCase().contains("meza")) {
-        print("Running print");
-        printer.sendZplOverBluetooth(zpl);
       }
     });
   }

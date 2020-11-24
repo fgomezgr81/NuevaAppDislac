@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  SharedPreferences.setMockInitialValues({});
   runApp(MyApp());
 }
 

@@ -184,13 +184,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_zsdk:
-    dependency: "direct main"
-    description:
-      path: flutter-zsdk
-      relative: true
-    source: path
-    version: "0.0.1"
   get:
     dependency: "direct main"
     description:

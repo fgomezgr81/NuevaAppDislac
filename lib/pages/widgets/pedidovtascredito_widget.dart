@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 //import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/api/pedidosvtasapi.dart';
 import 'package:dislacvta/controller/pedidoscreditocontroller.dart';
@@ -10,7 +8,6 @@ import 'package:dislacvta/pages/ventas/printpedidoDetail.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:flutter_zsdk/flutter_zsdk.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -322,19 +319,19 @@ class _PedidosCreditoVtasWidgetState extends State<PedidosCreditoVtasWidget> {
       // zpl =
       //   "^XA^FX Second section with recipient address and permit information.^CFA,20^FO50,100^FDJohn Doe^FS^FO50,140^FD100 Main Street^FS^FO50,180^FDSpringfield TN 39021^FS^FO50,220^FDUnited States (USA)^FS^XZ";
 
-      List<ZebraBluetoothDevice> devices =
-          await FlutterZsdk.discoverBluetoothDevices();
-      print("Found ${devices.length} BL device(s)");
+      // List<ZebraBluetoothDevice> devices =
+      //     await FlutterZsdk.discoverBluetoothDevices();
+      // print("Found ${devices.length} BL device(s)");
 
-      devices.forEach((ZebraBluetoothDevice printer) {
-        if (printer.friendlyName.toLowerCase().contains("meza")) {
-          print("Running print");
-          print(zpl.toString());
-          printer.sendZplOverBluetooth(zpl.toString()).then((t) {
-            print("Printing complete");
-          });
-        }
-      });
+      // devices.forEach((ZebraBluetoothDevice printer) {
+      //   if (printer.friendlyName.toLowerCase().contains("meza")) {
+      //     print("Running print");
+      //     print(zpl.toString());
+      //     printer.sendZplOverBluetooth(zpl.toString()).then((t) {
+      //       print("Printing complete");
+      //     });
+      //   }
+      // });
 
       Dialogs.dismiss(context);
     });

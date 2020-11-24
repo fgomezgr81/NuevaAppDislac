@@ -2,7 +2,6 @@ import 'package:dislacvta/pages/home_page.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class SplashController extends GetxController {
   @override

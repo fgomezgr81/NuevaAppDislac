@@ -6,7 +6,6 @@ import 'package:dislacvta/pages/ventas/detallepedido.dart';
 import 'package:dislacvta/pages/ventas/printpedidoDetail.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zsdk/flutter_zsdk.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -178,17 +177,17 @@ class PedidosVtasWidget extends StatelessWidget {
         ^FD${encabezado.importe}^FS 
         ^XZ''';
 
-      List<ZebraBluetoothDevice> devices =
-          await FlutterZsdk.discoverBluetoothDevices();
-      print("Found ${devices.length} BL device(s)");
-      devices.forEach((ZebraBluetoothDevice printer) {
-        if (printer.friendlyName.toLowerCase().contains("meza")) {
-          print("Running print");
-          printer.sendZplOverBluetooth(zpl).then((t) {
-            print("Printing complete");
-          });
-        }
-      });
+      // List<ZebraBluetoothDevice> devices =
+      //     await FlutterZsdk.discoverBluetoothDevices();
+      // print("Found ${devices.length} BL device(s)");
+      // devices.forEach((ZebraBluetoothDevice printer) {
+      //   if (printer.friendlyName.toLowerCase().contains("meza")) {
+      //     print("Running print");
+      //     printer.sendZplOverBluetooth(zpl).then((t) {
+      //       print("Printing complete");
+      //     });
+      //   }
+      // });
 
       Dialogs.dismiss(context);
     });
