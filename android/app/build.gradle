@@ -47,8 +47,8 @@ android {
         applicationId "com.appdesing.dislacvta"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 17
-        versionName "1.0.16"
+        versionCode 19
+        versionName "1.0.18"
     }
 
         signingConfigs {

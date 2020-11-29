@@ -2,8 +2,6 @@ import 'package:dislacvta/Animation/FadeAnimation.dart';
 import 'package:dislacvta/api/login.dart';
 import 'package:dislacvta/utils/constantes.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,14 +15,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    showconexion();
+    //showconexion();
   }
 
-  void showconexion() async {
-    SharedPreferences config = await SharedPreferences.getInstance();
-    Toast.show(config.getString("WebApi"), context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-  }
+  // void showconexion() async {
+  //   SharedPreferences config = await SharedPreferences.getInstance();
+  //   Toast.show(config.getString("WebApi"), context,
+  //       duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+  // }
 
   @override
   Widget build(BuildContext context) {

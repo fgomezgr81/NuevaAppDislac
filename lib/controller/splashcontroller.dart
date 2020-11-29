@@ -32,7 +32,7 @@ class SplashController extends GetxController {
   _grabarconfiguracion() async {
     SharedPreferences configuracion = await SharedPreferences.getInstance();
 
-    await configuracion.setString("WebApi", "http://dislacvta.ddns.net/Web");
-    //await configuracion.setString("WebApi", "http://192.168.0.10/WebApi");
+    //await configuracion.setString("WebApi", "http://dislacvta.ddns.net/Web");
+    await configuracion.setString("WebApi", "http://192.168.0.9/WebApi");
   }
 }

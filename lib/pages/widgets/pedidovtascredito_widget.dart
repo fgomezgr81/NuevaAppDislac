@@ -34,97 +34,109 @@ class _PedidosCreditoVtasWidgetState extends State<PedidosCreditoVtasWidget> {
             child: CircularProgressIndicator(),
           );
         }
-        return ListView.builder(
-          itemCount: _.pedidos.length,
-          itemBuilder: (context, index) {
-            final ModelPedido pedidos = _.pedidos[index];
-            return Card(
-              margin: EdgeInsets.all(15.0),
-              elevation: 10.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              child: Column(children: <Widget>[
-                ListTile(
-                  contentPadding: EdgeInsets.all(
-                    10.0,
-                  ),
-                  leading: Icon(Icons.add_shopping_cart, color: Colors.blue),
-                  title: Text(pedidos.nombre),
-                  subtitle: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Divider(),
-                      new Text('Importe \$: ' + pedidos.importe.toString(),
-                          style: new TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red)),
-                      Divider(),
-                      Text(
-                          'Fecha : ' +
-                              pedidos.fecha.toString().substring(
-                                  0, pedidos.fecha.toString().length - 12),
-                          style: new TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red)),
-                      Divider(),
-                      Text('Forma de cobro:' + pedidos.formaCobro,
-                          style: new TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red)),
-                      Divider()
-                    ],
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.remove_red_eye),
-                          color: Colors.amber,
-                          onPressed: () {
-                            //guardamos el pedido
-                            _grabarpreferences(pedidos.idDocumento);
 
-                            Get.to(DetallePedido());
-                          }),
-                      IconButton(
-                          icon: Icon(Icons.print),
-                          color: Colors.lightBlue,
-                          onPressed: () {
-                            //guardamos el pedido
-                            _grabarpreferences(pedidos.idDocumento);
+        if (_.pedidos.length > 0) {
+          return ListView.builder(
+            itemCount: _.pedidos.length,
+            itemBuilder: (context, index) {
+              final ModelPedido pedidos = _.pedidos[index];
+              return Card(
+                margin: EdgeInsets.all(15.0),
+                elevation: 10.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Column(children: <Widget>[
+                  ListTile(
+                    contentPadding: EdgeInsets.all(
+                      10.0,
+                    ),
+                    leading: Icon(Icons.add_shopping_cart, color: Colors.blue),
+                    title: Text(pedidos.nombre),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Divider(),
+                        new Text('Importe \$: ' + pedidos.importe.toString(),
+                            style: new TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red)),
+                        Divider(),
+                        Text(
+                            'Fecha : ' +
+                                pedidos.fecha.toString().substring(
+                                    0, pedidos.fecha.toString().length - 12),
+                            style: new TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red)),
+                        Divider(),
+                        Text('Forma de cobro:' + pedidos.formaCobro,
+                            style: new TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red)),
+                        Divider()
+                      ],
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.remove_red_eye),
+                            color: Colors.amber,
+                            onPressed: () {
+                              //guardamos el pedido
+                              _grabarpreferences(pedidos.idDocumento);
 
-                            Get.to(PrintPedidoDetailPage());
-                            // _printTikect(pedidos.idDocumento, context);
-                            //_printTikectzpl(pedidos.idDocumento, context);
-                          }),
-                      IconButton(
-                          icon: pedidos.pagoid == 71
-                              ? pedidos.formapagoid == 0
-                                  ? Icon(Icons.credit_card)
-                                  : Icon(Icons.check)
-                              : Icon(Icons.check),
-                          color: pedidos.pagoid == 71
-                              ? pedidos.formapagoid == 0
-                                  ? Colors.redAccent
-                                  : Colors.grey
-                              : Colors.grey,
-                          onPressed: () {
-                            if (pedidos.pagoid == 71) {
-                              _asyncSimpleDialog(context, pedidos.idDocumento);
-                            } else {
-                              // _pagado(context);
-                            }
-                          })
-                    ])
-              ]),
-            );
-          },
-        );
+                              Get.to(DetallePedido());
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.print),
+                            color: Colors.lightBlue,
+                            onPressed: () {
+                              //guardamos el pedido
+                              _grabarpreferences(pedidos.idDocumento);
+
+                              Get.to(PrintPedidoDetailPage());
+                              // _printTikect(pedidos.idDocumento, context);
+                              //_printTikectzpl(pedidos.idDocumento, context);
+                            }),
+                        IconButton(
+                            icon: pedidos.pagoid == 71
+                                ? pedidos.formapagoid == 0
+                                    ? Icon(Icons.credit_card)
+                                    : Icon(Icons.check)
+                                : Icon(Icons.check),
+                            color: pedidos.pagoid == 71
+                                ? pedidos.formapagoid == 0
+                                    ? Colors.redAccent
+                                    : Colors.grey
+                                : Colors.grey,
+                            onPressed: () {
+                              if (pedidos.pagoid == 71) {
+                                _asyncSimpleDialog(
+                                    context, pedidos.idDocumento);
+                              } else {
+                                // _pagado(context);
+                              }
+                            })
+                      ])
+                ]),
+              );
+            },
+          );
+        } else {
+          return Center(
+              child: Text(
+            'No se encontraron registros',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ));
+        }
       },
     );
   }

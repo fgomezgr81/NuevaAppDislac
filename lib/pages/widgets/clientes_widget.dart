@@ -18,48 +18,60 @@ class ClientesWidget extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        return ListView.builder(
-          itemCount: _.clientes.length,
-          itemBuilder: (context, index) {
-            final Clientesvtas clientes = _.clientes[index];
 
-            return ListTile(
-              title: Text(clientes.clienteId.toString(),
+        if (_.clientes.length > 0) {
+          return ListView.builder(
+            itemCount: _.clientes.length,
+            itemBuilder: (context, index) {
+              final Clientesvtas clientes = _.clientes[index];
+
+              return ListTile(
+                title: Text(clientes.clienteId.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                    )),
+                subtitle: Text(
+                  clientes.nombre,
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  )),
-              subtitle: Text(
-                clientes.nombre,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ),
                 ),
-              ),
-              leading: Icon(
-                Icons.face,
-                color: Colors.blue[500],
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.blue[400],
-              ),
-              onTap: () {
-                if (clientes.estatus == "A") {
-                  _setClienteID(clientes.clienteId.toString(), clientes.nombre);
+                leading: Icon(
+                  Icons.face,
+                  color: Colors.blue[500],
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue[400],
+                ),
+                onTap: () {
+                  if (clientes.estatus == "A") {
+                    _setClienteID(
+                        clientes.clienteId.toString(), clientes.nombre);
 
-                  if (clientes.credito == 0) {
-                    Get.to(ProductosClienteVtasPage());
+                    if (clientes.credito == 0) {
+                      Get.to(ProductosClienteVtasPage());
+                    } else {
+                      _asyncConfirmDialog(context);
+                    }
                   } else {
-                    _asyncConfirmDialog(context);
+                    Dialogs.alertCredito(context);
                   }
-                } else {
-                  Dialogs.alertCredito(context);
-                }
-              },
-            );
-          },
-        );
+                },
+              );
+            },
+          );
+        } else {
+          return Center(
+              child: Text(
+            'No se encontraron registros',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ));
+        }
       },
     );
   }

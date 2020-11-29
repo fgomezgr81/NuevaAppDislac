@@ -234,6 +234,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
   }
 
   void _tesPrint() async {
+    SharedPreferences pedidoID = await SharedPreferences.getInstance();
     //SIZE
     // 0- normal size text
     // 1- only bold text
@@ -243,48 +244,129 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
     // 0- ESC_ALIGN_LEFT
     // 1- ESC_ALIGN_CENTER
     // 2- ESC_ALIGN_RIGHT
+
     bluetooth.isConnected.then((isConnected) {
       if (isConnected) {
-        String zpl = "";
+        Future<DetalleEncabezado> detalle;
 
-        zpl += "^XA";
-        zpl += "^FX Top section with logo, name and address.";
-        zpl += "^CF0,60";
-        zpl += "^FO120,50^FDDISLACVTA SA DE CV.^FS";
-        zpl += "^CF0,30";
-        zpl += "^FO120,115^FDCalle Sinaloa 374,Las Mojoneras,C.P. 48290^FS";
-        zpl += "^FO220,155^FDPuerto Vallarta, Jal^FS";
-        zpl += "^FO220,195^FDventas@dislac.com.mx^FS";
-        zpl += "^FO220,235^FDTel.: 322 290 1396^FS";
-        zpl += "^FO220,275^FDTel.: 322 290 2252^FS";
-        zpl += "^FO50,315^GB700,1,3^FS";
-        zpl +=
-            "^FX Second section with recipient address and permit information.";
-        zpl += "^CFA,30";
-        zpl += "^FO50,340^FDJohn Doe^FS";
-        zpl += "^FO50,380^FD100 Main Street^FS";
-        zpl += "^FO50,420^FDSpringfield TN 39021^FS";
-        zpl += "^FO50,460^FDUnited States (USA)^FS";
-        zpl += "^FO50,500^FDPedido^FS";
-        zpl += "^FO50,540^GB700,1,3^FS";
-        zpl += "^FX detalle del pedido";
-        zpl += "^CFA,30";
-        zpl += "^FO50,580^FDDescripcion del producto se colocara aqui^FS";
-        zpl += "^FO50,630^FDCant.^FS";
-        zpl += "^FO290,630^FDPrecio^FS";
-        zpl += "^FO590,630^FDImporte^FS";
-        zpl += "^FO50,680^FD100^FS";
-        zpl += "^FO290,680^FD10000^FS";
-        zpl += "^FO590,680^FD10000^FS";
-        zpl += "^FX Importe total del pedido";
-        zpl += "^CFA,30";
-        zpl += "^FO300,750^FDImporte^FS";
-        zpl += "^FO600,750^FD10000^FS";
-        zpl += "^XZ";
-        bluetooth.printCustom(zpl, 3, 1);
-        bluetooth.printNewLine();
+        detalle = getDetallePedido();
+        detalle.then((data) {
+          DetalleEncabezado encabezado = data;
+          int p = 0;
+          String nombre = encabezado.cliente.substring(0,
+              encabezado.cliente.length > 32 ? 32 : encabezado.cliente.length);
+          if (encabezado.cliente.length <= 32) {
+            for (p = encabezado.cliente.length; p <= 32; p++) {
+              nombre += " ";
+            }
+          }
 
-        bluetooth.paperCut();
+          String divisor = "";
+
+          for (p = 0; p < 30; p++) {
+            divisor += "_";
+          }
+          print(nombre.length);
+
+          bluetooth.printNewLine();
+          bluetooth.printLeftRight("", "DISLACVTA SA DE CV.", 0);
+          bluetooth.printNewLine();
+          bluetooth.printCustom(
+              "Calle Sinaloa 374, Las Mojoneras, 48290 Puerto Vallarta, Jal",
+              1,
+              0);
+          bluetooth.printLeftRight("", "ventas@dislac.com.mx", 1);
+          bluetooth.printLeftRight("", "Tel.: 322 290 1396", 1);
+          bluetooth.printLeftRight("", "          322 290 2252 ", 1);
+          bluetooth.printCustom("              " + divisor, 0, 0);
+          bluetooth.printLeftRight(
+              "", "  Pedido: " + pedidoID.getInt("PedidoID").toString(), 1);
+          // bluetooth.printLeftRight("",
+          //     "            " + DateTime.now().toString().substring(0, 10), 0);
+          bluetooth.printLeftRight("",
+              "            " + encabezado.fecha.toString().substring(0, 10), 1);
+          bluetooth.printCustom('                                      ', 1, 0);
+          bluetooth.printCustom("                " + nombre, 1, 0);
+          bluetooth.printCustom("       " + divisor, 1, 0);
+          bluetooth.printNewLine();
+          bluetooth.printNewLine();
+
+          int i = 0;
+          double articulot = 0;
+          for (i = 0; i < encabezado.detallepedido.length; i++) {
+            int p = 0;
+
+            String descripcion = encabezado.detallepedido[i].articulo.substring(
+                0,
+                encabezado.detallepedido[i].articulo.length > 31
+                    ? 31
+                    : encabezado.detallepedido[i].articulo.length);
+            if (encabezado.detallepedido[i].articulo.length <= 31) {
+              for (p = encabezado.detallepedido[i].articulo.length;
+                  p <= 31;
+                  p++) {
+                descripcion += " ";
+              }
+            }
+
+            articulot += encabezado.detallepedido[i].unidades;
+            //if (i == 0) {
+            bluetooth.printNewLine();
+            bluetooth.printCustom(
+                ("         " + descripcion).substring(0, 40), 1, 2);
+            bluetooth.printCustom(
+                "         Cantidad    Precio   Sub-total ", 0, 0);
+            bluetooth.printCustom(
+                "        " +
+                    encabezado.detallepedido[i].unidades.toString() +
+                    "      \$" +
+                    encabezado.detallepedido[i].precio.toString() +
+                    "      \$" +
+                    encabezado.detallepedido[i].importe.toString() +
+                    "     ",
+                0,
+                0);
+            bluetooth.printCustom('                                   ', 1, 0);
+          }
+          bluetooth.printNewLine();
+          bluetooth.printNewLine();
+          bluetooth.printCustom(
+              "              Venta neta \$ " + encabezado.importe.toString(),
+              0,
+              2);
+          bluetooth.printCustom('                                     ', 1, 0);
+          bluetooth.printNewLine();
+          bluetooth.printNewLine();
+          bluetooth.printNewLine();
+
+          if (encabezado.formaPagoID == 71) {
+            bluetooth.printCustom(
+                "                    Debo(emos) y pagare(mos)  incondicionalmente a la orden de: Dislacvta, S.A de C.V. en  esta  ciudad  de  Puerto Vallarta, Jalisco,el dia " +
+                    encabezado.fecha.toString() +
+                    ".La cantidad de \$(" +
+                    encabezado.importe.toString() +
+                    " M.N.) Valor de la mercancia que he(emos) recibido a mi (nuestra) entera satisfaccion.",
+                1,
+                0);
+            bluetooth.printNewLine();
+            bluetooth.printCustom(
+                "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.",
+                1,
+                0);
+            bluetooth.printCustom(
+                '                                     ', 0, 0);
+            bluetooth.printCustom(
+                "                                          _______________________",
+                0,
+                0);
+            bluetooth.printCustom("                          Firma", 1, 0);
+            bluetooth.printCustom(
+                '                                     ', 0, 0);
+            bluetooth.printNewLine();
+            bluetooth.printNewLine();
+          }
+          bluetooth.paperCut();
+        });
       }
     });
   }

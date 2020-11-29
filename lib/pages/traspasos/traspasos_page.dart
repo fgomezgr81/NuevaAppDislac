@@ -22,10 +22,10 @@ class _TrapasosPageState extends State<TrapasosPage> {
       builder: (_) {
         return Scaffold(
           body: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButton(
                   hint: Text('Almacen origen'), // Not necessary for Option 1

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dislacvta/pages/admin/homeadmin_page.dart';
+import 'package:dislacvta/pages/inventarios/homeinvetarios.dart';
+import 'package:dislacvta/pages/orcenescompra/homeordenescompra.dart';
 import 'package:dislacvta/pages/traspasos/hometraspasos_page.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:dislacvta/utils/dialogs.dart';
@@ -42,10 +44,17 @@ class LoginApi {
             Get.off(HomeVtasPage());
             break;
           case 3: // recepcion de mercancias
-            print('Recepcion mercancias');
+            Get.off(OrdenesCompraPage());
             break;
-          default: //traspasos
+          case 4: //traspasos
             Get.off(HomeTrapasosPage());
+            break;
+          case 5: //Inventarios
+            Get.off(HomeInventarios());
+            break;
+          default:
+            Dialogs.popupDialog(
+                context, "Login", "No existe el tipo de usuario.");
             break;
         }
       } else {

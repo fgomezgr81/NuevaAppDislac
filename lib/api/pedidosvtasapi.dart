@@ -202,7 +202,7 @@ class PedidosvtaApi {
       "DetalleID": idDetalle.toString(),
       "Devolucion": devolucion.toString(),
     });
-    print(response.body);
+
     var datauser = json.decode(response.body);
     return datauser['success'];
   }

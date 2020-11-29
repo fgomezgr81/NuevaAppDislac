@@ -1,32 +1,31 @@
-import 'package:dislacvta/controller/articulostraspasoscontroller.dart';
-import 'package:dislacvta/pages/traspasos/detalletraspasos_page.dart';
-import 'package:dislacvta/pages/traspasos/hometraspasos_page.dart';
-import 'package:dislacvta/pages/traspasos/widgets/artiuclostrapasos_widget.dart';
+import 'package:dislacvta/controller/articulosinvetarioscontroller.dart';
+import 'package:dislacvta/pages/inventarios/detalleinventarios.dart';
+import 'package:dislacvta/pages/inventarios/homeinvetarios.dart';
+import 'package:dislacvta/pages/inventarios/widgets/artiuclostrapasos_widget.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class SendTrapasos extends StatefulWidget {
+class InventoryPage extends StatefulWidget {
   @override
-  _SendTrapasosState createState() => _SendTrapasosState();
+  _SendInventoryPageState createState() => _SendInventoryPageState();
 }
 
-class _SendTrapasosState extends State<SendTrapasos> {
+class _SendInventoryPageState extends State<InventoryPage> {
   TextEditingController editingController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ArticulosTrapasosController>(
-      init: ArticulosTrapasosController(),
+    return GetBuilder<ArticulosInventariosController>(
+      init: ArticulosInventariosController(),
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text('Articulos a traspasar'),
+            title: Text('Inventario'),
             actions: [
               IconButton(
                   icon: Icon(
@@ -36,7 +35,7 @@ class _SendTrapasosState extends State<SendTrapasos> {
                   onPressed: () async {
                     int traspasoID = await getDetalleTrapaso();
                     if (traspasoID > 0) {
-                      Get.to(DetalleTraspasosPage());
+                      Get.to(DetalleInventairosPage());
                     } else {
                       _ackAlert(context);
                     }
@@ -57,12 +56,12 @@ class _SendTrapasosState extends State<SendTrapasos> {
                   onPressed: () async {
                     int pedidoID = await getDetalleTrapaso();
                     if (pedidoID > 0) {
-                      bool resp = await _.cerrarTraspaso();
+                      bool resp = await _.cerrarInventario();
                       if (resp) {
                         Toast.show(
                             "El traspaso se finalizo correctamente.", context,
                             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                        Get.off(HomeTrapasosPage());
+                        Get.off(HomeInventarios());
                       } else {
                         Dialogs.popupDialog(context, 'Traspasos',
                             'Ocurrio un error al querer finalizar el traspaso.');
@@ -86,9 +85,9 @@ class _SendTrapasosState extends State<SendTrapasos> {
                     },
                     decoration: InputDecoration(
                         labelText: "Escriba la clave del articulo",
-                        hintText: "Escriba la clave del articuolo",
+                        hintText: "Escriba la clave del articulo",
                         prefixIcon: InkWell(
-                            onTap: () => _scanPhoto(_, context),
+                            onTap: () => _scanPhoto(_),
                             child: Icon(Icons.settings_overscan)),
                         border: OutlineInputBorder(
                             borderRadius:
@@ -96,7 +95,7 @@ class _SendTrapasosState extends State<SendTrapasos> {
                   ),
                 ),
                 Expanded(
-                  child: ArticulosTrapasosWidget(),
+                  child: ArticulosInventariosWidget(),
                 )
               ],
             ),
@@ -106,22 +105,20 @@ class _SendTrapasosState extends State<SendTrapasos> {
     );
   }
 
-  Future<void> _scanPhoto(ArticulosTrapasosController _, context) async {
-    try {
-      String respuesta = await FlutterBarcodeScanner.scanBarcode(
-          "#004297", "Cancelar", true, ScanMode.BARCODE);
-      if (respuesta != '-1') {
-        await _.loadArticulos(respuesta);
-      }
-    } catch (e) {
-      print('error');
-      print(e);
+  Future _scanPhoto(ArticulosInventariosController _) async {
+    String barcode = await FlutterBarcodeScanner.scanBarcode(
+        "#004297", "Cancelar", true, ScanMode.DEFAULT);
+    if (barcode != '-1') {
+      _.loadArticulos(barcode);
+      setState(() {
+        this.editingController.text = barcode;
+      });
     }
   }
 
   Future<int> getDetalleTrapaso() async {
     SharedPreferences config = await SharedPreferences.getInstance();
-    return config.getInt('TraspasoID');
+    return config.getInt('InventarioID');
   }
 
   Future<void> _ackAlert(BuildContext context) {
@@ -129,8 +126,8 @@ class _SendTrapasosState extends State<SendTrapasos> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Transferencias'),
-          content: const Text('No han agregados productos a transferir'),
+          title: Text('Inventarios'),
+          content: const Text('No han agregados productos a inventariar'),
           actions: <Widget>[
             FlatButton(
               child: Text('Ok'),

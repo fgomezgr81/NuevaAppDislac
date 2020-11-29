@@ -1,9 +1,11 @@
+import 'package:dislacvta/api/invetariosapi.dart';
 import 'package:dislacvta/api/traspasos.dart';
+import 'package:dislacvta/controller/invetarioscontroller.dart';
 
 import 'package:dislacvta/models/articulostraspasos.dart';
 import 'package:get/get.dart';
 
-class ArticulosTrapasosController extends GetxController {
+class ArticulosInventariosController extends GetxController {
   List<ArticuloTrapasos> _articulos = [];
   bool _loading = false;
 
@@ -21,23 +23,24 @@ class ArticulosTrapasosController extends GetxController {
     final data = await TrapasosApi.instance.getArticulosTraspasos(nombre);
     this._articulos = data;
     this._loading = false;
-    update(['ArticulosTrapasos']);
+    update();
   }
 
-  Future<int> addArticuloTraspaso(
+  Future<int> addArticuloInventario(
       int articuloID, double unidades, String claveArticulo) async {
     this._loading = true;
-    final resp = await TrapasosApi.instance
-        .addtraspaso(unidades, articuloID, claveArticulo);
+    final resp = await InvetariosApi.instance
+        .addInventario(articuloID, unidades, claveArticulo);
 
     this._loading = false;
     return resp;
   }
 
-  Future<bool> cerrarTraspaso() async {
+  Future<bool> cerrarInventario() async {
     this._loading = true;
-    final resp = await TrapasosApi.instance.cerrarTraspaso();
-
+    final resp = await InvetariosApi.instance.cerrarInventario();
+    InventariosController inv = new InventariosController();
+    inv.loadDetailInvetory();
     this._loading = false;
     return resp;
   }

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/models/modelprintdetalle.dart';
-import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -260,8 +259,9 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           bluetooth.printNewLine();
           bluetooth.printLeftRight("", "DISLACVTA SA DE CV.", 0);
           bluetooth.printNewLine();
+          bluetooth.printNewLine();
           bluetooth.printCustom(
-              "   Calle Sinaloa 374, Las Mojoneras, 48290 Puerto Vallarta, Jal",
+              "Calle Sinaloa 374, Las Mojoneras, 48290 Puerto Vallarta, Jal",
               1,
               0);
           bluetooth.printLeftRight("", "ventas@dislac.com.mx", 1);
