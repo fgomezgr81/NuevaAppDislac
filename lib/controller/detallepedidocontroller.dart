@@ -26,4 +26,10 @@ class DetallePedidoController extends GetxController {
     this._loading = false;
     update();
   }
+
+  Future<bool> deleteProducto(int detalleID) async {
+    final resp = await ProductosClienteApi.instance.deleteProduct(detalleID);
+    loadDetallePedido();
+    return resp;
+  }
 }

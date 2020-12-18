@@ -5,6 +5,7 @@ class DetalleEncabezado {
   final int formaPagoID;
   final double importe;
   final double iva;
+  final String folio;
   final List<Detalle> detallepedido;
 
   DetalleEncabezado(
@@ -14,6 +15,7 @@ class DetalleEncabezado {
       this.importe,
       this.fecha,
       this.iva,
+      this.folio,
       this.detallepedido});
 
   factory DetalleEncabezado.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class DetalleEncabezado {
       iva: json['IVA'],
       formaPagoID: json['FormaPagoID'],
       importe: json['Importe'],
+      folio: json['Folio'],
       detallepedido: list.map((i) => Detalle.fromJson(i)).toList(),
     );
   }

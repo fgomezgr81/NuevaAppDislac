@@ -1,6 +1,7 @@
 import 'package:dislacvta/api/productoclienteapi.dart';
 import 'package:dislacvta/controller/productosclientecontroller.dart';
 import 'package:dislacvta/pages/ventas/detallepedido.dart';
+import 'package:dislacvta/pages/ventas/detallepedidovta.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:dislacvta/pages/ventas/printpedido.dart';
 import 'package:dislacvta/pages/widgets/producto_widget.dart';
@@ -44,7 +45,7 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
                     onPressed: () async {
                       int pedidoID = await getPedidoID();
                       if (pedidoID > 0) {
-                        Get.to(DetallePedido());
+                        Get.to(DetalleVentaPedido());
                       } else {
                         _ackAlert(context);
                       }
@@ -70,7 +71,10 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
                       Icons.supervisor_account,
                       size: 30,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      SharedPreferences config =
+                          await SharedPreferences.getInstance();
+                      config.setInt('ClienteID', 0);
                       Get.off(HomeVtasPage());
                     })
               ],
@@ -116,7 +120,7 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
                   if (resp) {
                     Toast.show("El pedido fue guardado exitosamente.", context,
                         duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                    Get.off(PrintPedidoPage());
+                    Get.offAll(PrintPedidoPage());
                   } else {
                     Toast.show(
                         "Ocurrio un error al querer cerrar el pedido.", context,
@@ -138,7 +142,7 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
                   if (resp) {
                     Toast.show("El pedido fue guardado exitosamente.", context,
                         duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                    Get.off(PrintPedidoPage());
+                    Get.offAll(PrintPedidoPage());
                   } else {
                     Toast.show(
                         "Ocurrio un error al querer cerrar el pedido.", context,
@@ -200,7 +204,7 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
                 if (resp) {
                   Toast.show("El pedido fue guardado exitosamente.", context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                  Get.off(PrintPedidoPage());
+                  Get.offAll(PrintPedidoPage());
                 } else {
                   Toast.show(
                       "Ocurrio un error al querer cerrar el pedido.", context,

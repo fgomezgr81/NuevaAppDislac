@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dislacvta/pages/admin/homeadmin_page.dart';
 import 'package:dislacvta/pages/inventarios/homeinvetarios.dart';
-import 'package:dislacvta/pages/orcenescompra/homeordenescompra.dart';
+import 'package:dislacvta/pages/ordenescompra/homeordenescompra.dart';
 import 'package:dislacvta/pages/traspasos/hometraspasos_page.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:dislacvta/utils/dialogs.dart';

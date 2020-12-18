@@ -68,6 +68,8 @@ class ProductosClienteApi {
       });
       var datauser = json.decode(response.body);
       if (datauser['success'] == true) {
+        device.setInt('ClienteID', 0);
+        device.setInt('PedidoID', 0);
         return true;
       } else {
         return false;
@@ -104,5 +106,18 @@ class ProductosClienteApi {
       print(e);
       return null;
     }
+  }
+
+  //eliminar producto
+  Future<bool> deleteProduct(detalleid) async {
+    SharedPreferences web = await SharedPreferences.getInstance();
+    final response = await http.get(web.getString('WebApi') +
+        "/api/BorraArticulo?DetalleID=" +
+        detalleid.toString());
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 }

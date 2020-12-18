@@ -254,36 +254,28 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           for (p = 0; p < 30; p++) {
             divisor += "_";
           }
-          print(nombre.length);
 
-          bluetooth.printNewLine();
-          bluetooth.printLeftRight("", "DISLACVTA SA DE CV.", 0);
-          bluetooth.printNewLine();
-          bluetooth.printNewLine();
-          bluetooth.printCustom(
-              "Calle Sinaloa 374, Las Mojoneras, 48290 Puerto Vallarta, Jal",
-              1,
-              0);
-          bluetooth.printLeftRight("", "ventas@dislac.com.mx", 1);
-          bluetooth.printLeftRight("", "Tel.: 322 290 1396", 1);
-          bluetooth.printLeftRight("", "          322 290 2252 ", 1);
-          bluetooth.printCustom("              " + divisor, 0, 0);
-          bluetooth.printLeftRight(
-              "", "  Pedido: " + pedidoID.getInt("PedidoID").toString(), 1);
-          // bluetooth.printLeftRight("",
-          //     "            " + DateTime.now().toString().substring(0, 10), 0);
-          bluetooth.printLeftRight("",
-              "            " + encabezado.fecha.toString().substring(0, 10), 1);
-          bluetooth.printCustom('                                      ', 1, 0);
-          bluetooth.printCustom("                " + nombre, 1, 0);
-          bluetooth.printCustom("       " + divisor, 1, 0);
-          bluetooth.printNewLine();
-          bluetooth.printNewLine();
+          String _encabezado = "";
+          _encabezado += "            DISLACVTA SA DE CV \n\r";
+          _encabezado += "  Calle Sinaloa, Las Mojoneras\n\r";
+          _encabezado += "C.P. 48290, Puerto Vallarta,Jal.\n\r";
+          _encabezado += "       ventas@dislac.com.mx\n\r";
+          _encabezado += "         Tel: 322 290 1396 \n\r";
+          _encabezado += "              322 290 22522\n\r";
+          _encabezado += "________________________________\n\n\r";
+          _encabezado +=
+              "         Folio:" + encabezado.folio.toString() + "\n\r";
+          _encabezado += "________________________________\n\n\r";
+          _encabezado += nombre;
+          _encabezado += "________________________________\n\n\r";
+
+          bluetooth.printCustom(_encabezado, 2, 1);
 
           int i = 0;
           double articulot = 0;
           for (i = 0; i < encabezado.detallepedido.length; i++) {
             int p = 0;
+            String cuerpo = "";
 
             String descripcion = encabezado.detallepedido[i].articulo.substring(
                 0,
@@ -299,60 +291,35 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
             }
 
             articulot += encabezado.detallepedido[i].unidades;
-            //if (i == 0) {
-            bluetooth.printNewLine();
-            bluetooth.printCustom(
-                ("         " + descripcion).substring(0, 40), 1, 2);
-            bluetooth.printCustom(
-                "         Cantidad    Precio   Sub-total ", 0, 0);
-            bluetooth.printCustom(
-                "        " +
-                    encabezado.detallepedido[i].unidades.toString() +
-                    "      \$" +
-                    encabezado.detallepedido[i].precio.toString() +
-                    "      \$" +
-                    encabezado.detallepedido[i].importe.toString() +
-                    "     ",
-                0,
-                0);
-            bluetooth.printCustom('                                   ', 1, 0);
+
+            cuerpo += descripcion + "\n\r";
+            cuerpo += "Cantidad     Precio    Sub-total";
+            cuerpo += encabezado.detallepedido[i].unidades.toString() +
+                "        \$" +
+                encabezado.detallepedido[i].precio.toString() +
+                "     \$" +
+                encabezado.detallepedido[i].importe.toString() +
+                "\n\r";
+
+            bluetooth.printCustom(cuerpo, 0, 1);
           }
-          bluetooth.printNewLine();
-          bluetooth.printNewLine();
-          bluetooth.printCustom(
-              "              Venta neta \$ " + encabezado.importe.toString(),
-              0,
-              2);
-          bluetooth.printCustom('                                     ', 1, 0);
-          bluetooth.printNewLine();
-          bluetooth.printNewLine();
-          bluetooth.printNewLine();
+          String total = "                 Venta neta \$" +
+              encabezado.importe.toString() +
+              "\n\r";
+          bluetooth.printCustom(total, 0, 1);
 
           if (encabezado.formaPagoID == 71) {
-            bluetooth.printCustom(
-                "                    Debo(emos) y pagare(mos)  incondicionalmente a la orden de: Dislacvta, S.A de C.V. en  esta  ciudad  de  Puerto Vallarta, Jalisco,el dia " +
+            String pagare =
+                "          Debo(emos) y pagare(mos)  incondicionalmente a la orden de: Dislacvta, S.A de C.V. en  esta  ciudad  de  Puerto Vallarta, Jalisco,el dia " +
                     encabezado.fecha.toString() +
                     ".La cantidad de \$(" +
                     encabezado.importe.toString() +
-                    " M.N.) Valor de la mercancia que he(emos) recibido a mi (nuestra) entera satisfaccion.",
-                1,
-                0);
-            bluetooth.printNewLine();
-            bluetooth.printCustom(
-                "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.",
-                1,
-                0);
-            bluetooth.printCustom(
-                '                                     ', 0, 0);
-            bluetooth.printCustom(
-                "                                          _______________________",
-                0,
-                0);
-            bluetooth.printCustom("                          Firma", 1, 0);
-            bluetooth.printCustom(
-                '                                     ', 0, 0);
-            bluetooth.printNewLine();
-            bluetooth.printNewLine();
+                    " M.N.) Valor de la mercancia que he(emos) recibido a mi (nuestra) entera satisfaccion.\n\r";
+            pagare +=
+                "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.\n\r";
+            pagare += "      _____________________\n\r";
+            pagare += "            Firma\n\r";
+            bluetooth.printCustom(pagare, 1, 0);
           }
           bluetooth.paperCut();
         });

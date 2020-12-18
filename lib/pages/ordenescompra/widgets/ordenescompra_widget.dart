@@ -1,6 +1,6 @@
 import 'package:dislacvta/controller/ordenescompracontroller.dart';
 import 'package:dislacvta/models/ordenescompra.dart';
-import 'package:dislacvta/pages/orcenescompra/detalleordencompra.dart';
+import 'package:dislacvta/pages/ordenescompra/detalleordencompra.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

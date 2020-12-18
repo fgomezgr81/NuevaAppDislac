@@ -12,7 +12,7 @@ class HomeVtasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabController = new DefaultTabController(
-      length: 5,
+      length: 4,
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -61,12 +61,12 @@ class HomeVtasPage extends StatelessWidget {
                   size: 30,
                 ),
               ),
-              Tab(
-                icon: Icon(
-                  Icons.account_balance,
-                  size: 30,
-                ),
-              ),
+              // Tab(
+              //   icon: Icon(
+              //     Icons.account_balance,
+              //     size: 30,
+              //   ),
+              // ),
             ]),
           ),
           body: TabBarView(children: <Widget>[
@@ -74,7 +74,7 @@ class HomeVtasPage extends StatelessWidget {
             PedidosPage(),
             PedidosCreditoPage(),
             PedidosHistoricoPage(),
-            PrintVentasDia()
+            // PrintVentasDia()
           ]),
         ),
       ),

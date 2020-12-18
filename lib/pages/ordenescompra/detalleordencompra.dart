@@ -1,6 +1,6 @@
 import 'package:dislacvta/controller/detalleordencompra.dart';
-import 'package:dislacvta/pages/orcenescompra/homeordenescompra.dart';
-import 'package:dislacvta/pages/orcenescompra/widgets/detalleordencompra.dart';
+import 'package:dislacvta/pages/ordenescompra/homeordenescompra.dart';
+import 'package:dislacvta/pages/ordenescompra/widgets/detalleordencompra.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
