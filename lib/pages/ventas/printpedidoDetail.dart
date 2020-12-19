@@ -269,7 +269,7 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           _encabezado += nombre + "\n\r";
           _encabezado += "________________________________\n\n\r";
 
-          bluetooth.printCustom(_encabezado, 2, 1);
+          bluetooth.printCustom(_encabezado, 3, 1);
 
           int i = 0;
           double articulot = 0;
@@ -302,12 +302,12 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                 encabezado.detallepedido[i].importe.toString() +
                 "\n\r";
 
-            bluetooth.printCustom(cuerpo, 0, 1);
+            bluetooth.printCustom(cuerpo, 3, 1);
           }
           String total = "                 Venta neta \$" +
               encabezado.importe.toString() +
-              "\n\r";
-          bluetooth.printCustom(total, 0, 1);
+              "\n\n\n\r";
+          bluetooth.printCustom(total, 3, 1);
 
           if (encabezado.formaPagoID == 71) {
             String pagare =
@@ -319,8 +319,8 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
             pagare +=
                 "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.\n\r";
             pagare += "      _____________________\n\r";
-            pagare += "            Firma\n\r";
-            bluetooth.printCustom(pagare, 1, 0);
+            pagare += "            Firma\n\n\n\r";
+            bluetooth.printCustom(pagare, 3, 1);
           }
           bluetooth.paperCut();
         });
