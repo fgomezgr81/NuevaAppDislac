@@ -68,8 +68,8 @@ class ProductosClienteApi {
       });
       var datauser = json.decode(response.body);
       if (datauser['success'] == true) {
-        device.setInt('ClienteID', 0);
-        device.setInt('PedidoID', 0);
+        // device.setInt('ClienteID', 0);
+        // device.setInt('PedidoID', 0);
         return true;
       } else {
         return false;

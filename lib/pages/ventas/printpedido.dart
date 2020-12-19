@@ -282,7 +282,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
           _encabezado +=
               "         Folio:" + encabezado.folio.toString() + "\n\r";
           _encabezado += "________________________________\n\n\r";
-          _encabezado += nombre;
+          _encabezado += nombre + "\n\r";
           _encabezado += "________________________________\n\n\r";
 
           bluetooth.printCustom(_encabezado, 2, 1);
@@ -293,11 +293,12 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
             int p = 0;
             String cuerpo = "";
 
-            String descripcion = encabezado.detallepedido[i].articulo.substring(
-                0,
-                encabezado.detallepedido[i].articulo.length > 31
-                    ? 31
-                    : encabezado.detallepedido[i].articulo.length);
+            String descripcion = "       " +
+                encabezado.detallepedido[i].articulo.substring(
+                    0,
+                    encabezado.detallepedido[i].articulo.length > 31
+                        ? 31
+                        : encabezado.detallepedido[i].articulo.length);
             if (encabezado.detallepedido[i].articulo.length <= 31) {
               for (p = encabezado.detallepedido[i].articulo.length;
                   p <= 31;

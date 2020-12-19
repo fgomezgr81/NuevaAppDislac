@@ -1,6 +1,5 @@
 import 'package:dislacvta/api/productoclienteapi.dart';
 import 'package:dislacvta/controller/productosclientecontroller.dart';
-import 'package:dislacvta/pages/ventas/detallepedido.dart';
 import 'package:dislacvta/pages/ventas/detallepedidovta.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:dislacvta/pages/ventas/printpedido.dart';
