@@ -256,18 +256,19 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           }
 
           String _encabezado = "";
-          _encabezado += "            DISLACVTA SA DE CV \n\r";
+          _encabezado += "            DISLACVTA SA DE CV \n\n\r";
           _encabezado += "  Calle Sinaloa, Las Mojoneras\n\r";
-          _encabezado += "C.P. 48290, Puerto Vallarta,Jal.\n\r";
-          _encabezado += "       ventas@dislac.com.mx\n\r";
+          _encabezado += "C.P. 48290, Puerto Vallarta,Jal.\n\n\r";
+          _encabezado += "       ventas@dislac.com.mx\n\n\r";
           _encabezado += "         Tel: 322 290 1396 \n\r";
           _encabezado += "              322 290 22522\n\r";
           _encabezado += "________________________________\n\n\r";
           _encabezado +=
               "         Folio:" + encabezado.folio.toString() + "\n\r";
+          _encabezado += "       Fecha:" + encabezado.fecha + "\n\r";
           _encabezado += "________________________________\n\n\r";
           _encabezado += nombre + "\n\r";
-          _encabezado += "________________________________\n\n\r";
+          _encabezado += "________________________________\n\r\n\r";
 
           bluetooth.printCustom(_encabezado, 3, 1);
 
@@ -294,19 +295,19 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
             articulot += encabezado.detallepedido[i].unidades;
 
             cuerpo += descripcion + "\n\r";
-            cuerpo += "Cantidad     Precio    Sub-total";
+            cuerpo += "Cantidad     Precio    Sub-total\n\r";
             cuerpo += encabezado.detallepedido[i].unidades.toString() +
                 "        \$" +
                 encabezado.detallepedido[i].precio.toString() +
                 "     \$" +
                 encabezado.detallepedido[i].importe.toString() +
-                "\n\r";
+                "\n\r\n\r";
 
             bluetooth.printCustom(cuerpo, 3, 1);
           }
-          String total = "                 Venta neta \$" +
+          String total = "\n\r\n\r            Venta neta \$" +
               encabezado.importe.toString() +
-              "\n\n\n\r";
+              "\n\r\n\r";
           bluetooth.printCustom(total, 3, 1);
 
           if (encabezado.formaPagoID == 71) {
@@ -315,11 +316,11 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                     encabezado.fecha.toString() +
                     ".La cantidad de \$(" +
                     encabezado.importe.toString() +
-                    " M.N.) Valor de la mercancia que he(emos) recibido a mi (nuestra) entera satisfaccion.\n\r";
+                    " M.N.) Valor de la mercancia que he(emos) recibido a mi (nuestra) entera satisfaccion.\n\r\n\r";
             pagare +=
                 "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.\n\r";
-            pagare += "      _____________________\n\r";
-            pagare += "            Firma\n\n\n\r";
+            pagare += "      _____________________\n\r\n\r";
+            pagare += "            Firma\n\n\r";
             bluetooth.printCustom(pagare, 3, 1);
           }
           bluetooth.paperCut();
