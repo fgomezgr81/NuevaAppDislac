@@ -272,7 +272,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
           }
 
           String _encabezado = "";
-          _encabezado += "            DISLACVTA SA DE CV \n\n\r";
+          _encabezado += "              DISLACVTA SA DE CV \n\n\r";
           _encabezado += "  Calle Sinaloa, Las Mojoneras\n\r";
           _encabezado += "C.P. 48290, Puerto Vallarta,Jal.\n\n\r";
           _encabezado += "       ventas@dislac.com.mx\n\n\r";
@@ -286,7 +286,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
           _encabezado += nombre + "\n\r";
           _encabezado += "________________________________\n\r\n\r";
 
-          bluetooth.printCustom(_encabezado, 3, 1);
+          bluetooth.printCustom(_encabezado, 1, 1);
 
           int i = 0;
           double articulot = 0;
@@ -319,12 +319,12 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
                 encabezado.detallepedido[i].importe.toString() +
                 "\n\r\n\r";
 
-            bluetooth.printCustom(cuerpo, 3, 1);
+            bluetooth.printCustom(cuerpo, 1, 1);
           }
           String total = "\n\r\n\r            Venta neta \$" +
               encabezado.importe.toString() +
               "\n\r\n\r";
-          bluetooth.printCustom(total, 3, 1);
+          bluetooth.printCustom(total, 1, 1);
 
           if (encabezado.formaPagoID == 71) {
             String pagare =
@@ -337,7 +337,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
                 "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.\n\r";
             pagare += "      _____________________\n\r\n\r";
             pagare += "            Firma\n\n\r";
-            bluetooth.printCustom(pagare, 3, 1);
+            bluetooth.printCustom(pagare, 1, 1);
           }
           bluetooth.paperCut();
         });

@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
 import 'package:dislacvta/pages/admin/homeadmin_page.dart';
 import 'package:dislacvta/pages/inventarios/homeinvetarios.dart';
 import 'package:dislacvta/pages/ordenescompra/homeordenescompra.dart';
@@ -8,6 +9,7 @@ import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class LoginApi {
   LoginApi._internal();
@@ -15,28 +17,27 @@ class LoginApi {
   static LoginApi _instance = LoginApi._internal();
   static LoginApi get instance => _instance;
 
-  final _dio = Dio();
-
   getLogin(String user, String password, BuildContext context) async {
     Dialogs.show(context);
 
     SharedPreferences web = await SharedPreferences.getInstance();
 
     try {
-      final Response response = await this
-          ._dio
-          .post(web.getString('WebApi') + "/api/GetUsuario", data: {
+      final response = await http
+          .post(web.getString('WebApi') + "/api/GetUsuario", body: {
         "EmpleadoID": user,
         "Contraseña": password,
         "Emai": web.getString('deviceId')
       });
 
+      var datauser = json.decode(response.body);
+
       Dialogs.dismiss(context);
 
-      if (response.data['success']) {
+      if (datauser['StatusCode'] == 200) {
         web.setInt("VendedorID", int.parse(user));
 
-        switch (response.data['TipoUsuarioID']) {
+        switch (datauser['TipoUsuarioID']) {
           case 1: //administrador
             Get.off(HomeAdminPage());
             break;

@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/models/modelprintdetalle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +26,25 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
   void initState() {
     super.initState();
     initPlatformState();
-    getDetallePedido();
+    initSavetoPath();
+  }
+
+  initSavetoPath() async {
+    //read and write
+    //image max 300px X 300px
+    final filename = 'logo.png';
+    var bytes = await rootBundle.load("assets/logop.png");
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    writeToFile(bytes, '$dir/$filename');
+    setState(() {
+      pathImage = '$dir/$filename';
+    });
+  }
+
+  Future<void> writeToFile(ByteData data, String path) {
+    final buffer = data.buffer;
+    return new File(path).writeAsBytes(
+        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
   Future<void> initPlatformState() async {
@@ -256,7 +276,7 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           }
 
           String _encabezado = "";
-          _encabezado += "            DISLACVTA SA DE CV \n\n\r";
+          _encabezado = "              DISLACVTA SA DE CV \n\n\r";
           _encabezado += "  Calle Sinaloa, Las Mojoneras\n\r";
           _encabezado += "C.P. 48290, Puerto Vallarta,Jal.\n\n\r";
           _encabezado += "       ventas@dislac.com.mx\n\n\r";
@@ -270,7 +290,7 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
           _encabezado += nombre + "\n\r";
           _encabezado += "________________________________\n\r\n\r";
 
-          bluetooth.printCustom(_encabezado, 3, 1);
+          bluetooth.printCustom(_encabezado, 1, 1);
 
           int i = 0;
           double articulot = 0;
@@ -303,12 +323,12 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                 encabezado.detallepedido[i].importe.toString() +
                 "\n\r\n\r";
 
-            bluetooth.printCustom(cuerpo, 3, 1);
+            bluetooth.printCustom(cuerpo, 1, 1);
           }
           String total = "\n\r\n\r            Venta neta \$" +
               encabezado.importe.toString() +
               "\n\r\n\r";
-          bluetooth.printCustom(total, 3, 1);
+          bluetooth.printCustom(total, 1, 1);
 
           if (encabezado.formaPagoID == 71) {
             String pagare =
@@ -321,7 +341,7 @@ class _PrintPedidoDetailPageState extends State<PrintPedidoDetailPage> {
                 "Este  pagare   es   mercantil  y  esta  regido por la Ley General de Titulos, en su articulo No.173 parte final  y  articulos correlativos  por ser pagare domiciliado. No pagandose a su vencimiento el importe de este pagare causara intereses a razon de2% mensual.\n\r";
             pagare += "      _____________________\n\r\n\r";
             pagare += "            Firma\n\n\r";
-            bluetooth.printCustom(pagare, 3, 1);
+            bluetooth.printCustom(pagare, 1, 1);
           }
           bluetooth.paperCut();
         });

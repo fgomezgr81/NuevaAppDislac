@@ -1,11 +1,15 @@
 import 'package:device_info/device_info.dart';
 import 'package:dislacvta/pages/splash.dart';
+import 'package:dislacvta/preferencias_usuario/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   SharedPreferences.setMockInitialValues({});
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
+
   runApp(MyApp());
 }
 

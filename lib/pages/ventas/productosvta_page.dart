@@ -4,6 +4,7 @@ import 'package:dislacvta/pages/ventas/detallepedidovta.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:dislacvta/pages/ventas/printpedido.dart';
 import 'package:dislacvta/pages/widgets/producto_widget.dart';
+import 'package:dislacvta/preferencias_usuario/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,8 @@ class ProductosClienteVtasPage extends StatefulWidget {
 }
 
 class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
+  final prefs = PreferenciasUsuario();
+
   Future<int> getPedidoID() async {
     SharedPreferences config = await SharedPreferences.getInstance();
     return config.getInt('PedidoID');
@@ -112,50 +115,66 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
           return SimpleDialog(
             title: const Text('Seleccione una opcion'),
             children: <Widget>[
-              SimpleDialogOption(
-                onPressed: () async {
-                  bool resp = await ProductosClienteApi.instance
-                      .cerrarPedido(71, '', '');
-                  if (resp) {
-                    Toast.show("El pedido fue guardado exitosamente.", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                    Get.offAll(PrintPedidoPage());
-                  } else {
-                    Toast.show(
-                        "Ocurrio un error al querer cerrar el pedido.", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                  }
-                },
-                child: const Text('Credito'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  _getBanco(context, 68);
-                },
-                child: const Text('Cheque'),
-              ),
-              SimpleDialogOption(
-                onPressed: () async {
-                  bool resp = await ProductosClienteApi.instance
-                      .cerrarPedido(67, '', '');
-                  if (resp) {
-                    Toast.show("El pedido fue guardado exitosamente.", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                    Get.offAll(PrintPedidoPage());
-                  } else {
-                    Toast.show(
-                        "Ocurrio un error al querer cerrar el pedido.", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                  }
-                },
-                child: const Text('Efectivo'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  _getBanco(context, 9660);
-                },
-                child: const Text('Transferencia'),
-              ),
+              prefs.credito
+                  ? SimpleDialogOption(
+                      onPressed: () async {
+                        bool resp = await ProductosClienteApi.instance
+                            .cerrarPedido(71, '', '');
+                        if (resp) {
+                          Toast.show(
+                              "El pedido fue guardado exitosamente.", context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                          Get.offAll(PrintPedidoPage());
+                        } else {
+                          Toast.show(
+                              "Ocurrio un error al querer cerrar el pedido.",
+                              context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                        }
+                      },
+                      child: const Text('Credito'),
+                    )
+                  : Text(''),
+              prefs.cheque
+                  ? SimpleDialogOption(
+                      onPressed: () {
+                        _getBanco(context, 68);
+                      },
+                      child: const Text('Cheque'),
+                    )
+                  : Text(''),
+              prefs.efectivo
+                  ? SimpleDialogOption(
+                      onPressed: () async {
+                        bool resp = await ProductosClienteApi.instance
+                            .cerrarPedido(67, '', '');
+                        if (resp) {
+                          Toast.show(
+                              "El pedido fue guardado exitosamente.", context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                          Get.offAll(PrintPedidoPage());
+                        } else {
+                          Toast.show(
+                              "Ocurrio un error al querer cerrar el pedido.",
+                              context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                        }
+                      },
+                      child: const Text('Efectivo'),
+                    )
+                  : Text(''),
+              prefs.transferencia
+                  ? SimpleDialogOption(
+                      onPressed: () {
+                        _getBanco(context, 9660);
+                      },
+                      child: const Text('Transferencia'),
+                    )
+                  : Text(''),
             ],
           );
         });

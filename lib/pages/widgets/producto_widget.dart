@@ -189,6 +189,7 @@ class _ProductoWidgetState extends State<ProductoWidget> {
                         context,
                         duration: Toast.LENGTH_LONG,
                         gravity: Toast.BOTTOM);
+                    _.loadProductoClientes();
                   }
                 } else {
                   _ackAlert(context);

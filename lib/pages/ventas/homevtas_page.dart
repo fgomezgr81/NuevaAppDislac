@@ -3,7 +3,6 @@ import 'package:dislacvta/pages/ventas/clientesvtas_page.dart';
 import 'package:dislacvta/pages/ventas/pedidos_page.dart';
 import 'package:dislacvta/pages/ventas/pedidoscredito_page.dart';
 import 'package:dislacvta/pages/ventas/pedidoshistorico_page.dart';
-import 'package:dislacvta/pages/ventas/ventadia.dart';
 import 'package:flutter/material.dart';
 
 class HomeVtasPage extends StatelessWidget {

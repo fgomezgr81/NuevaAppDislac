@@ -2,12 +2,14 @@ import 'package:dislacvta/controller/clientesvtascontroller.dart';
 import 'package:dislacvta/models/clientesvtas.dart';
 import 'package:dislacvta/pages/ventas/pagarpedidos.dart';
 import 'package:dislacvta/pages/ventas/productosvta_page.dart';
+import 'package:dislacvta/preferencias_usuario/preferencias_usuario.dart';
 import 'package:dislacvta/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientesWidget extends StatelessWidget {
+  final prefs = PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ClientesVtasController>(
@@ -50,6 +52,11 @@ class ClientesWidget extends StatelessWidget {
                   if (clientes.estatus == "A") {
                     _setClienteID(
                         clientes.clienteId.toString(), clientes.nombre);
+
+                    prefs.cheque = clientes.cheque;
+                    prefs.credito = clientes.esCredito;
+                    prefs.efectivo = clientes.efectivo;
+                    prefs.transferencia = clientes.transferencia;
 
                     if (clientes.credito == 0) {
                       Get.to(ProductosClienteVtasPage());

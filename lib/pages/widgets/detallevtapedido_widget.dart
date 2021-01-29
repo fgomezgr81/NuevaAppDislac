@@ -1,5 +1,3 @@
-import 'package:dislacvta/api/pedidosvtasapi.dart';
-import 'package:dislacvta/api/productoclienteapi.dart';
 import 'package:dislacvta/controller/detallepedidocontroller.dart';
 import 'package:dislacvta/models/detallepedidovtas.dart';
 import 'package:flutter/material.dart';
