@@ -60,4 +60,20 @@ class PreferenciasUsuario {
   set transferencia(bool value) {
     _prefs.setBool('transferencia', value);
   }
+
+  get totalPedido {
+    return _prefs.getDouble('TotalPedido') ?? 0;
+  }
+
+  set totalPedido(double value) {
+    _prefs.setDouble('TotalPedido', value);
+  }
+
+  get limiteCredito {
+    return _prefs.getDouble('LimiteCredito') ?? 0;
+  }
+
+  set limiteCredito(double value) {
+    _prefs.setDouble('LimiteCredito', value);
+  }
 }

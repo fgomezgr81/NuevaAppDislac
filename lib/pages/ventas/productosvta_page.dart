@@ -118,20 +118,26 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
               prefs.credito
                   ? SimpleDialogOption(
                       onPressed: () async {
-                        bool resp = await ProductosClienteApi.instance
-                            .cerrarPedido(71, '', '');
-                        if (resp) {
-                          Toast.show(
-                              "El pedido fue guardado exitosamente.", context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM);
-                          Get.offAll(PrintPedidoPage());
+                        final prefs = new PreferenciasUsuario();
+                        if (prefs.totalPedido <= prefs.limiteCredito) {
+                          bool resp = await ProductosClienteApi.instance
+                              .cerrarPedido(71, '', '');
+                          if (resp) {
+                            Toast.show(
+                                "El pedido fue guardado exitosamente.", context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.BOTTOM);
+                            Get.offAll(PrintPedidoPage());
+                          } else {
+                            Toast.show(
+                                "Ocurrio un error al querer cerrar el pedido.",
+                                context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.BOTTOM);
+                          }
                         } else {
-                          Toast.show(
-                              "Ocurrio un error al querer cerrar el pedido.",
-                              context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM);
+                          _alertCredito(
+                              context, prefs.totalPedido, prefs.limiteCredito);
                         }
                       },
                       child: const Text('Credito'),
@@ -243,6 +249,31 @@ class _ProductosClienteVtasPageState extends State<ProductosClienteVtasPage> {
         return AlertDialog(
           title: Text('Cierre pedido'),
           content: const Text('No ha agregado ningun producto al pedido'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _alertCredito(
+      BuildContext context, double total, double credito) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Credito',
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+              'El total del pedido ${total} es mayor al limite de credito ${credito}'),
           actions: <Widget>[
             FlatButton(
               child: Text('Ok'),

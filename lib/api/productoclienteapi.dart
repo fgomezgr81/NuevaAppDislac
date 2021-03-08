@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dislacvta/models/detallepedidovtas.dart';
 import 'package:dislacvta/models/productocliente.dart';
+import 'package:dislacvta/preferencias_usuario/preferencias_usuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +32,8 @@ class ProductosClienteApi {
   Future<int> addproduct(
       double cantidad, int articuloID, double precio, double cambio) async {
     int pedidoID;
+
+    final prefs = new PreferenciasUsuario();
     SharedPreferences cliente = await SharedPreferences.getInstance();
     pedidoID = cliente.getInt('PedidoID');
 
@@ -46,10 +49,12 @@ class ProductosClienteApi {
     });
 
     var datauser = json.decode(response.body);
+    prefs.limiteCredito = datauser['datosPedidos']['Credito'];
+    prefs.totalPedido = datauser['datosPedidos']['Total'];
 
-    cliente.setInt('PedidoID', datauser['DocumentoID']);
+    cliente.setInt('PedidoID', datauser['datosPedidos']['DocumentoID']);
 
-    return datauser['DocumentoID'];
+    return datauser['datosPedidos']['DocumentoID'];
   }
 
   Future<bool> cerrarPedido(
