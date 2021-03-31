@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:dislacvta/models/modelprintdetalle.dart';
+import 'package:dislacvta/pages/ventas/detallepedidovtapage.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,6 +74,17 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
         title: Text('Imprimir pedido'),
         automaticallyImplyLeading: false,
         actions: [
+          IconButton(
+              padding: EdgeInsets.only(
+                right: 10.0,
+              ),
+              icon: Icon(
+                Icons.autorenew,
+                size: 40,
+              ),
+              onPressed: () async {
+                Get.off(DetalleVentaPedidoPage());
+              }),
           IconButton(
               padding: EdgeInsets.only(
                 right: 10.0,

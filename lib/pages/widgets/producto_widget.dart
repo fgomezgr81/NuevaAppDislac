@@ -135,29 +135,14 @@ class _ProductoWidgetState extends State<ProductoWidget> {
                   labelText: 'Escriba la cantidad',
                   hintText: '0',
                   labelStyle: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 18.0,
                   ),
                 ),
                 onChanged: (value) {
                   teamName = value;
                 },
-              ),
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: new InputDecoration(
-                  labelText: 'Escriba la cantidad a cambiar',
-                  hintText: '0',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                onChanged: (value) {
-                  teamNames = value;
-                },
-              ),
+              )
             ],
           ),
           actions: <Widget>[
@@ -172,27 +157,28 @@ class _ProductoWidgetState extends State<ProductoWidget> {
               color: Colors.green[900],
               child: Text('Aceptar'),
               onPressed: () async {
-                if (existencia >= double.parse(teamName)) {
-                  setState(() {
-                    cantidad = double.parse(teamName);
-                    cambio = teamNames != '' ? double.parse(teamNames) : 0;
-                    preciop = precio;
-                    articuloID = idArticulo;
-                  });
-                  int pedidoID = await ProductosClienteApi.instance
-                      .addproduct(cantidad, articuloID, precio, cambio);
-                  Navigator.of(context).pop();
-                  if (pedidoID != 0) {
-                    Toast.show(
-                        "El producto fue agregado al pedido " +
-                            pedidoID.toString(),
-                        context,
-                        duration: Toast.LENGTH_LONG,
-                        gravity: Toast.BOTTOM);
-                    _.loadProductoClientes();
+                if (double.parse(teamName) > 0) {
+                  if (existencia >= double.parse(teamName)) {
+                    setState(() {
+                      cantidad = double.parse(teamName);
+                      preciop = precio;
+                      articuloID = idArticulo;
+                    });
+                    int pedidoID = await ProductosClienteApi.instance
+                        .addproduct(cantidad, articuloID, precio);
+                    Navigator.of(context).pop();
+                    if (pedidoID != 0) {
+                      Toast.show(
+                          "El producto fue agregado al pedido " +
+                              pedidoID.toString(),
+                          context,
+                          duration: Toast.LENGTH_LONG,
+                          gravity: Toast.BOTTOM);
+                      _.loadProductoClientes();
+                    }
+                  } else {
+                    _ackAlert(context);
                   }
-                } else {
-                  _ackAlert(context);
                 }
               },
             ),

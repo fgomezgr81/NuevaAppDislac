@@ -47,25 +47,26 @@ class DetallePedidoWidget extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red)),
                         Divider(),
-                        Row(
-                          children: [
-                            FlatButton(
-                              onPressed: () {
-                                _asyncInputDialog(context, articulo.detalleId,
-                                    articulo.unidades);
-                              },
-                              child: Icon(
-                                Icons.remove_shopping_cart,
-                              ),
-                            ),
-                            Text(
-                              'Devolver',
-                              style: TextStyle(
-                                color: Colors.red[200],
-                              ),
-                            ),
-                          ],
-                        )
+                        // Row(
+                        //   children: [
+                        //     FlatButton(
+                        //       onPressed: () {
+
+                        //         _asyncInputDialog(context, articulo.detalleId,
+                        //             articulo.unidades);
+                        //       },
+                        //       child: Icon(
+                        //         Icons.remove_shopping_cart,
+                        //       ),
+                        //     ),
+                        //     Text(
+                        //       'Devolver',
+                        //       style: TextStyle(
+                        //         color: Colors.red[200],
+                        //       ),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                   ),
@@ -86,61 +87,61 @@ class DetallePedidoWidget extends StatelessWidget {
     );
   }
 
-  Future<String> _asyncInputDialog(
-      BuildContext context, int idDetalle, double unidades) async {
-    double teamNames = 0;
+  // Future<String> _asyncInputDialog(
+  //     BuildContext context, int idDetalle, double unidades) async {
+  //   double teamNames = 0;
 
-    return showDialog<String>(
-      context: context,
-      barrierDismissible:
-          false, // dialog is dismissible with a tap on the barrier
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Devolucion'),
-          content: new Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                  child: new TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: new InputDecoration(
-                    labelText: 'Escriba la cantidad a devolver', hintText: '0'),
-                onChanged: (value) {
-                  teamNames = double.parse(value);
-                },
-              ))
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text('Aceptar'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                bool resp = await PedidosvtaApi.instance
-                    .devolucion(idDetalle, teamNames);
+  //   return showDialog<String>(
+  //     context: context,
+  //     barrierDismissible:
+  //         false, // dialog is dismissible with a tap on the barrier
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Devolucion'),
+  //         content: new Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             Expanded(
+  //                 child: new TextField(
+  //               keyboardType: TextInputType.number,
+  //               autofocus: true,
+  //               decoration: new InputDecoration(
+  //                   labelText: 'Escriba la cantidad a devolver', hintText: '0'),
+  //               onChanged: (value) {
+  //                 teamNames = double.parse(value);
+  //               },
+  //             ))
+  //           ],
+  //         ),
+  //         actions: <Widget>[
+  //           FlatButton(
+  //             child: const Text('Cancelar'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           FlatButton(
+  //             child: Text('Aceptar'),
+  //             onPressed: () async {
+  //               Navigator.of(context).pop();
+  //               bool resp = await PedidosvtaApi.instance
+  //                   .devolucion(idDetalle, teamNames);
 
-                if (resp) {
-                  Toast.show("La devolucion se realizo correctamente", context,
-                      duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                } else {
-                  Toast.show(
-                      'Ocurrio un error al querer registrar la devolucion.',
-                      context,
-                      duration: Toast.LENGTH_LONG,
-                      gravity: Toast.BOTTOM);
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  //               if (resp) {
+  //                 Toast.show("La devolucion se realizo correctamente", context,
+  //                     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+  //               } else {
+  //                 Toast.show(
+  //                     'Ocurrio un error al querer registrar la devolucion.',
+  //                     context,
+  //                     duration: Toast.LENGTH_LONG,
+  //                     gravity: Toast.BOTTOM);
+  //               }
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }

@@ -29,8 +29,7 @@ class ProductosClienteApi {
     }
   }
 
-  Future<int> addproduct(
-      double cantidad, int articuloID, double precio, double cambio) async {
+  Future<int> addproduct(double cantidad, int articuloID, double precio) async {
     int pedidoID;
 
     final prefs = new PreferenciasUsuario();
@@ -44,8 +43,7 @@ class ProductosClienteApi {
       "DocumentoID": pedidoID.toString(),
       "Cantidad": cantidad.toString(),
       "ArticuloID": articuloID.toString(),
-      "Precio": precio.toString(),
-      "CantidadCambio": cambio.toString(),
+      "Precio": precio.toString()
     });
 
     var datauser = json.decode(response.body);
