@@ -6,6 +6,7 @@ import 'package:dislacvta/pages/ventas/detallepedidovtapage.dart';
 import 'package:dislacvta/pages/ventas/homevtas_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -302,9 +303,10 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
 
           int i = 0;
           double articulot = 0;
+          String cuerpo = "";
+
           for (i = 0; i < encabezado.detallepedido.length; i++) {
             int p = 0;
-            String cuerpo = "";
 
             String descripcion = "       " +
                 encabezado.detallepedido[i].articulo.substring(
@@ -321,7 +323,7 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
             }
 
             articulot += encabezado.detallepedido[i].unidades;
-
+            cuerpo = "";
             cuerpo += descripcion + "\n\r";
             cuerpo += "Cantidad     Precio    Sub-total\n\r";
             cuerpo += encabezado.detallepedido[i].unidades.toString() +
@@ -333,10 +335,51 @@ class _PrintPedidoPageState extends State<PrintPedidoPage> {
 
             bluetooth.printCustom(cuerpo, 1, 1);
           }
-          String total = "\n\r\n\r            Venta neta \$" +
-              encabezado.importe.toString() +
-              "\n\r\n\r";
-          bluetooth.printCustom(total, 1, 1);
+
+          double tdev = 0;
+          if (encabezado.detalledevoluciones.length > 0) {
+            cuerpo = "==============DEVOLUCIONES===========\n\r";
+            bluetooth.printCustom(cuerpo, 1, 1);
+
+            for (int j = 0; j < encabezado.detalledevoluciones.length; j++) {
+              tdev += encabezado.detalledevoluciones[j].precio *
+                  encabezado.detalledevoluciones[j].unidades;
+
+              cuerpo = "";
+
+              cuerpo += "Cantidad     Precio    Sub-total\n\r";
+
+              cuerpo += encabezado.detalledevoluciones[j].unidades.toString() +
+                  "        \$" +
+                  encabezado.detalledevoluciones[j].precio.toString() +
+                  "     \$" +
+                  encabezado.detalledevoluciones[j].importe.toString() +
+                  "\n\r\n\r";
+
+              bluetooth.printCustom(cuerpo, 1, 1);
+
+              String total = "\n\r\n\r            Venta neta \$" +
+                  encabezado.importe.toString() +
+                  "\n\r\n\r";
+              bluetooth.printCustom(total, 1, 1);
+
+              total =
+                  "            Devolucion \$" + tdev.toString() + "\n\r\n\r";
+              bluetooth.printCustom(total, 1, 1);
+
+              FlutterMoneyFormatter fmf =
+                  FlutterMoneyFormatter(amount: encabezado.importe - tdev);
+
+              total =
+                  "            Total \$" + fmf.output.nonSymbol + "\n\r\n\r";
+              bluetooth.printCustom(total, 1, 1);
+            }
+          } else {
+            String total = "\n\r\n\r            Venta neta \$" +
+                encabezado.importe.toString() +
+                "\n\r\n\r";
+            bluetooth.printCustom(total, 1, 1);
+          }
 
           if (encabezado.formaPagoID == 71) {
             String pagare =

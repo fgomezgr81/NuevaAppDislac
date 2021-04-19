@@ -38,6 +38,7 @@ dependencies:
   flutter_barcode_scanner: ^1.0.1
   blue_thermal_printer:
   path_provider: ^1.6.24
+  flutter_money_formatter: ^0.8.3
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ class DetalleEncabezado {
   final double iva;
   final String folio;
   final List<Detalle> detallepedido;
+  final List<Detalle> detalledevoluciones;
 
   DetalleEncabezado(
       {this.cliente,
@@ -16,10 +17,12 @@ class DetalleEncabezado {
       this.fecha,
       this.iva,
       this.folio,
-      this.detallepedido});
+      this.detallepedido,
+      this.detalledevoluciones});
 
   factory DetalleEncabezado.fromJson(Map<String, dynamic> json) {
     var list = json['detalleArticulos'] as List;
+    var listdev = json['devoluciones'] as List;
     return DetalleEncabezado(
       cliente: json['Cliente'],
       clienteid: json['ClienteID'],
@@ -29,6 +32,7 @@ class DetalleEncabezado {
       importe: json['Importe'],
       folio: json['Folio'],
       detallepedido: list.map((i) => Detalle.fromJson(i)).toList(),
+      detalledevoluciones: listdev.map((i) => Detalle.fromJson(i)).toList(),
     );
   }
 }
